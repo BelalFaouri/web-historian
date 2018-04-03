@@ -1,20 +1,16 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
+var fs = require('fs')
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
-  res.end(`<!DOCTYPE>
-<html>
-<head>
-  <link rel="stylesheet" type="text/css" href="styles.css" />
-</head>
-<body>
-  Enter a URL here:
-  <form method="POST">
-    <input type="input" name="url"></input>
-  </form>
-</body>
-</html>
-`);
-  
+	if(req.method === 'GET'){
+		if (req.url === '/'){
+			fs.readFile(path.join(__dirname, '/public/index.html'), 'utf8', (err, data) => {
+				if (err) {throw err}
+					res.writeHeader(200, '{contentType : text/html}')
+					res.end(data)
+			})
+		}
+	}
 };
